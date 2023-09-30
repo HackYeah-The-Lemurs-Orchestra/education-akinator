@@ -1,17 +1,24 @@
 import numpy as np
 from . import data
 
-# fields, questions = data.from_csv('data.csv')
+fields, questions = data.from_csv('data.csv')
 
-fields = [
-    {'name': 'Matematyka stosowana', 'answers': {1: 1, 2: 0.5}},
-    {'name': 'Informatyka',          'answers': {1: 0.8, 2: 1}},
-]
+# questions = {
+#     1: 'yellow?',
+#     2: 'bald?',
+#     3: 'a man?',
+#     4: 'short?',
+# }
+
+# characters = [
+#     {'name': 'Homer Simpson',         'answers': {1: 1, 2: 1, 3: 1, 4: 0}},
+#     {'name': 'SpongeBob SquarePants', 'answers': {1: 1, 2: 1, 3: 1, 4: 0.75}},
+#     {'name': 'Sandy Cheeks',          'answers': {1: 0, 2: 0, 3: 0}},
+# ]
+
 
 def run():
-    questions = data.from_csv('data.csv')
     available_questions = set(questions.keys())
-
     questions_answered = []
     answers = []
 
