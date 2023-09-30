@@ -25,7 +25,7 @@ UJ = University("UJ")
 AGH = University("AGH")
 
 
-class Study(object):
+class Field(object):
     def __init__(self, name, university, categories, part_time=False, degree=1):
         self.name = name
         self.university = university
@@ -37,13 +37,13 @@ class Study(object):
 
 
 db_studies = list()
-db_studies.append(Study(name='Informatyka', university=UJ,
+db_studies.append(Field(name='Informatyka', university=UJ,
                         categories={
                             Matematyka: 0.9,
                             Scisle: 1,
                             IT: 1
                         }))
-db_studies.append(Study(name='Informatyka gier komputerowa', university=UJ,
+db_studies.append(Field(name='Informatyka gier komputerowa', university=UJ,
                         categories={
                             Matematyka: 0.9,
                             Scisle: 1,
@@ -51,14 +51,14 @@ db_studies.append(Study(name='Informatyka gier komputerowa', university=UJ,
                             Rozrywka: 0.9
                         }))
 
-db_studies.append(Study(name='Dietetyka', university=UJ,
+db_studies.append(Field(name='Dietetyka', university=UJ,
                         categories={
                             Zdrowie: 1,
                             Chemia: 0.5,
                             Medyczne: 0.4
                         }))
 
-db_studies.append(Study(name="Położnictwo", university='UJ',
+db_studies.append(Field(name="Położnictwo", university='UJ',
                         categories={
                             Zdrowie: 1,
                             Medyczne: 0.9
