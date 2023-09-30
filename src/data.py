@@ -1,12 +1,21 @@
 import csv
 
-fields = [
-    {'name': 'Matematyka stosowana', 'answers': {1: 1, 2: 0.5}},
-    {'name': 'Informatyka',          'answers': {1: 0.8, 2: 1}},
-]
-
 def parse_percent(s):
     return float(s.replace("%", "")) / 100
+
+# returns
+# fields = [
+#     {'name': 'Homer Simpson',         'answers': {1: 1, 2: 1, 3: 1, 4: 0}},
+#     {'name': 'SpongeBob SquarePants', 'answers': {1: 1, 2: 1, 3: 1, 4: 0.75}},
+#     {'name': 'Sandy Cheeks',          'answers': {1: 0, 2: 0, 3: 0}},
+# ]
+
+# questions = {
+#     1: 'yellow?',
+#     2: 'bald?',
+#     3: 'a man?',
+#     4: 'short?',
+# }
 
 def from_csv(file):
     questions = {}
