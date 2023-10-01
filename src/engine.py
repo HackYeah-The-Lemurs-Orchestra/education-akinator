@@ -6,15 +6,23 @@ from . import data
 import os
 
 fields, questions = data.from_csv('data.csv')
-
+questions = {
+    0: "Lubię matematykę",
+    1: "Chciałbym pracować na zewnątrz",
+    2: "Chciałbym zajmować się sprzedażą",
+    3: "Lubię pracować w zespole",
+    4: "Moim celem jest pomoc środowisku",
+    5: "Lubię łamigłówki",
+    6: "Jestem bardzo kreatywny",
+    7: "Dobrze się bawię podejmując ryzyko",
+    8: "Moim hobby jest rysowanie",
+    9: "Fascynuje mnie historia"
+}
 
 def run():
     available_questions = set(questions.keys())
     questions_answered = []
     answers = []
-
-    print("To jest proof of concept. Odpowiadaj liczbami w [0, 1]")
-
     probs = None
 
     while not stop_condition(available_questions):
@@ -37,23 +45,23 @@ def top(fields):
 
 def menu():
     print("1. Tak")
-    print("2. Nie")
+    print("2. Chyba tak")
     print("3. Nie wiem")
-    print("4. Chyba tak")
-    print("5. Chyba nie")
+    print("4. Chyba nie")
+    print("5. Nie")
     answer = int(input("Odpowiedz: "))
     p = 0
     match answer:
         case 1:
             p = 1
         case 2:
-            p = 0
+            p = 0.75
         case 3:
             p = 0.5
         case 4:
-            p = 0.75
-        case 5:
             p = 0.25
+        case 5:
+            p = 0
     return p
 
 def compare(item1, item2):
