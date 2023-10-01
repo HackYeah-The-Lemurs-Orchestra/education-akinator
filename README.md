@@ -24,6 +24,7 @@ P(A') - Prawdopodobieństwo że dany kierunek studiów to nie jest
 informatyka <br />
 
 ## Jak dobieramy pytania
+Każde kolejne pytanie przybliża użytkownika do odnalezienia najbardziej odpowiadającej opcji. Kolejne pytania są dobierane przez prostą sztuczną inteligencję bazującą na poprzednich odpowiedziach.
 [Entropia :))](https://pl.wikipedia.org/wiki/Entropia_(teoria_informacji))
 <br />
 (Szukamy pytania które da największy spadek entropi.)
