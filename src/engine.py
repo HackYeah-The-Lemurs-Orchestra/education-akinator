@@ -6,7 +6,9 @@ from . import data
 
 fields, questions = data.from_csv('data.csv')
 
+
 def run():
+    print(fields)
     available_questions = set(questions.keys())
     questions_answered = []
     answers = []
@@ -14,24 +16,35 @@ def run():
     print("To jest proof of concept. Odpowiadaj liczbami w [0, 1]")
 
     while not stop_condition(available_questions):
+        print(questions_answered)
+        print(answers)
         question_id = next_question(questions_answered, answers, available_questions)
+        print(question_id)
         questions_answered.append(question_id)
         answer = input(f"{questions[question_id]}: ")
         answers.append(float(answer))
 
-        probs = calculate_probabilites(questions_so_far=questions, answers_so_far=answers)
-        print(sorted(probs, key=cmp_to_key(compare)))
+        probs = calculate_probabilites(questions_so_far=questions_answered, answers_so_far=answers, real=True)
+        top(sorted(probs, key=cmp_to_key(compare), reverse=True))
+
+
+def top(fields):
+    for i in range(5):
+        print(fields[i])
+
 
 def compare(item1, item2):
-    if item1['probability'] > item2['probability']:
+    if item1['probability'] < item2['probability']:
         return -1
-    elif item1['probability'] < item2['probability']:
+    elif item1['probability'] > item2['probability']:
         return 1
     else:
         return 0
 
+
 def stop_condition(questions):
     return len(questions) == 0
+
 
 def next_question(questions_so_far, answers_so_far, quezdionz) -> int:
     next_entropies = []
@@ -50,6 +63,7 @@ def next_question(questions_so_far, answers_so_far, quezdionz) -> int:
             question = etr[1]
 
     quezdionz.remove(question)
+    print(f"Entropy: {min_entropy}")
 
     return question
 
@@ -57,21 +71,23 @@ def next_question(questions_so_far, answers_so_far, quezdionz) -> int:
 def entropy(probabilities):
     e = 0
     for pi in probabilities:
-        e += pi['probability'] * math.log(pi['probability'], 2)
+        e += -pi['probability'] * math.log(pi['probability'], 2)
 
     return e
 
-def calculate_probabilites(questions_so_far, answers_so_far):
+
+def calculate_probabilites(questions_so_far, answers_so_far, real=False):
     probabilities = []
     for field in fields:
         probabilities.append({
             'name': field['name'],
-            'probability': calculate_field_probability(field, questions_so_far, answers_so_far)
+            'probability': calculate_field_probability(field, questions_so_far, answers_so_far, real)
         })
 
     return probabilities
 
-def calculate_field_probability(field, questions_so_far, answers_so_far):
+
+def calculate_field_probability(field, questions_so_far, answers_so_far, real=False):
     # Prior
     P_character = 1 / len(fields)
 
@@ -82,18 +98,21 @@ def calculate_field_probability(field, questions_so_far, answers_so_far):
         P_answers_given_character *= max(
             1 - abs(answer - field_answer(field, question)), 0.01)
 
-        P_answer_not_character = np.mean([1 - abs(answer - field_answer(not_field, question))
-                                          for not_field in fields
-                                          if not_field['name'] != field['name']])
+        probs = [1 - abs(answer - field_answer(not_field, question))
+                 for not_field in fields
+                 if not_field['name'] != field['name']]
+        P_answer_not_character = np.mean(probs)
         P_answers_given_not_character *= max(P_answer_not_character, 0.01)
+        if real:
+            print(f"question: {question} field: {field['name']}, likelihood: {max(1 - abs(answer - field_answer(field, question)), 0.01)}")
 
     # Evidence
     P_answers = P_character * P_answers_given_character + \
-        (1 - P_character) * P_answers_given_not_character
+                (1 - P_character) * P_answers_given_not_character
 
     # Bayes Theorem
     P_character_given_answers = (
-        P_answers_given_character * P_character) / P_answers
+                                        P_answers_given_character * P_character) / P_answers
 
     return P_character_given_answers
 
@@ -102,4 +121,3 @@ def field_answer(field, question):
     if question in field['answers']:
         return field['answers'][question]
     return 0.5
-
