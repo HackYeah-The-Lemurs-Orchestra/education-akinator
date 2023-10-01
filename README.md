@@ -1,11 +1,27 @@
 # Kierunkowskaz
 
-Our application will ask you some questions about your
-preferences, and basing on them it will present to you 
-5 best fields of studies.
+Nasza aplikacja zada użytkownikowi kilka pytań na temat jego
+preferencji w temacie nauki, życia i kilku innych cech i na
+podstawie odpowiedzi zaproponuje 5 najlepiej dopasowanych 
+kierunków studiów.
 
-## How do we achieve this?
-To achieve this effect we use Bayes theorem. Knowing that
-if 90% of people who are studying computer science likes STEM
-subjects, we can calculate probability of event that if somebody
-likes 
+## Jak to się dzieje?
+Żeby uzyskać powyżej przedstawiony efekt korzystamy z **twierdzenia
+Bayesa**. Wiedząc że 90% studentów matematyki lubi przedmioty ścisłe
+możemy policzyć prawdopodobieństwo tego że ktoś będzie stduiował
+informatykę lubiąc przedmioty ścisłe korzystając ze wzoru:<br />
+![wzor](./images/stary.png) <br />
+Gdzie:
+P(A|B) - Prawdopodobieństwo tego że ktoś będzie stduiował
+informatykę lubiąc przedmioty ścisłe <br />
+P(B|A) - Prawdopodobieństwo tego że ktoś lubi przedmioty ścisłe
+studiując informatykę <br />
+P(A) - Prawdopodobieństwo że dany kierunek studiów to 
+informatyka <br />
+P(B|A') - Prawdopodobieństwo tego że ktoś lubi przedmioty ścisłe
+nie studiując informatyki <br />
+P(A') - Prawdopodobieństwo że dany kierunek studiów to nie jest
+informatyka <br />
+
+## Jak dobieramy pytania
+Entropia :))
