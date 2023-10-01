@@ -3,6 +3,7 @@ import math
 import copy
 from functools import cmp_to_key
 from . import data
+import os
 
 fields, questions = data.from_csv('data.csv')
 
@@ -24,6 +25,7 @@ def run():
         answers.append(float(answer))
 
         probs = calculate_probabilites(questions_so_far=questions_answered, answers_so_far=answers)
+        os.system("clear")
 
     top(sorted(probs, key=cmp_to_key(compare), reverse=True))
 
