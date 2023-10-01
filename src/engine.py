@@ -8,7 +8,6 @@ fields, questions = data.from_csv('data.csv')
 
 
 def run():
-    print(fields)
     available_questions = set(questions.keys())
     questions_answered = []
     answers = []
@@ -16,15 +15,13 @@ def run():
     print("To jest proof of concept. Odpowiadaj liczbami w [0, 1]")
 
     while not stop_condition(available_questions):
-        print(questions_answered)
-        print(answers)
         question_id = next_question(questions_answered, answers, available_questions)
-        print(question_id)
         questions_answered.append(question_id)
-        answer = input(f"{questions[question_id]}: ")
+        print(f"{questions[question_id]}: ")
+        answer = menu() # input(f"{questions[question_id]}: ")
         answers.append(float(answer))
 
-        probs = calculate_probabilites(questions_so_far=questions_answered, answers_so_far=answers, real=True)
+        probs = calculate_probabilites(questions_so_far=questions_answered, answers_so_far=answers)
         top(sorted(probs, key=cmp_to_key(compare), reverse=True))
 
 
@@ -32,6 +29,27 @@ def top(fields):
     for i in range(5):
         print(fields[i])
 
+
+def menu():
+    print("1. Tak")
+    print("2. Nie")
+    print("3. Nie wiem")
+    print("4. Chyba tak")
+    print("5. Chyba nie")
+    answer = int(input("Odpowiedz: "))
+    p = 0
+    match answer:
+        case 1:
+            p = 1
+        case 2:
+            p = 0
+        case 3:
+            p = 0.5
+        case 4:
+            p = 0.75
+        case 5:
+            p = 0.25
+    return p
 
 def compare(item1, item2):
     if item1['probability'] < item2['probability']:
@@ -63,7 +81,6 @@ def next_question(questions_so_far, answers_so_far, quezdionz) -> int:
             question = etr[1]
 
     quezdionz.remove(question)
-    print(f"Entropy: {min_entropy}")
 
     return question
 
@@ -76,18 +93,18 @@ def entropy(probabilities):
     return e
 
 
-def calculate_probabilites(questions_so_far, answers_so_far, real=False):
+def calculate_probabilites(questions_so_far, answers_so_far):
     probabilities = []
     for field in fields:
         probabilities.append({
             'name': field['name'],
-            'probability': calculate_field_probability(field, questions_so_far, answers_so_far, real)
+            'probability': calculate_field_probability(field, questions_so_far, answers_so_far)
         })
 
     return probabilities
 
 
-def calculate_field_probability(field, questions_so_far, answers_so_far, real=False):
+def calculate_field_probability(field, questions_so_far, answers_so_far):
     # Prior
     P_character = 1 / len(fields)
 
@@ -103,8 +120,6 @@ def calculate_field_probability(field, questions_so_far, answers_so_far, real=Fa
                  if not_field['name'] != field['name']]
         P_answer_not_character = np.mean(probs)
         P_answers_given_not_character *= max(P_answer_not_character, 0.01)
-        if real:
-            print(f"question: {question} field: {field['name']}, likelihood: {max(1 - abs(answer - field_answer(field, question)), 0.01)}")
 
     # Evidence
     P_answers = P_character * P_answers_given_character + \
