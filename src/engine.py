@@ -14,6 +14,8 @@ def run():
 
     print("To jest proof of concept. Odpowiadaj liczbami w [0, 1]")
 
+    probs = None
+
     while not stop_condition(available_questions):
         question_id = next_question(questions_answered, answers, available_questions)
         questions_answered.append(question_id)
@@ -22,12 +24,13 @@ def run():
         answers.append(float(answer))
 
         probs = calculate_probabilites(questions_so_far=questions_answered, answers_so_far=answers)
-        top(sorted(probs, key=cmp_to_key(compare), reverse=True))
 
+    top(sorted(probs, key=cmp_to_key(compare), reverse=True))
 
 def top(fields):
+    print("-----Polecane kierunki-----")
     for i in range(5):
-        print(fields[i])
+        print(f"kierunek: {fields[i]['name']} Stopien dopasowania: {int(fields[i]['probability']*100)}%")
 
 
 def menu():

@@ -24,7 +24,7 @@ def from_csv(file):
         spamreader = csv.reader(csvfile, delimiter=',')
         header = next(spamreader)
         questions = dict(enumerate(list(header)[1:]))
-        print(questions)
+        # print(questions)
 
         for row in spamreader:
             field = row[0]
