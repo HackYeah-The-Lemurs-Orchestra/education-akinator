@@ -24,4 +24,6 @@ P(A') - Prawdopodobieństwo że dany kierunek studiów to nie jest
 informatyka <br />
 
 ## Jak dobieramy pytania
-Entropia :))
+[Entropia :))](https://pl.wikipedia.org/wiki/Entropia_(teoria_informacji))
+<br />
+(Szukamy pytania które da największy spadek entropi.)
